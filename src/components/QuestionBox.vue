@@ -6,10 +6,16 @@
     </template>
 
     <hr class="my-4">
-      
-    <p v-for="(answer, index) in answers" :key="index">
-      {{ answer }}
-    </p>
+      <b-list-group>
+        <b-list-group-item 
+        v-for="(answer, index) in answers" 
+        :key="index"
+        @click="selectAnswer(index)"
+        :class="[selectedIndex === index ? 'selected' : '']"
+        >
+          {{ answer }}
+          </b-list-group-item>
+      </b-list-group>
 
     <b-button variant="primary" href="#">Submit</b-button>
     <b-button variant="success" @click="next">Next</b-button>
@@ -23,16 +29,51 @@
       currentQuestion: Object,
       next: Function
     },
+    data() {
+      return {
+        selectedIndex: null
+      }
+    },
     computed: {
       answers() {
         let answers = [...this.currentQuestion.incorrect_answers]
         answers.push(this.currentQuestion.correct_answer)
         return answers
       }
+    },
+    methods: {
+      selectAnswer(index) {
+        return this.selectedIndex = index
+      }
     }
   }
 </script>
 
-<style>
+<style scoped>
+  .list-group {
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+
+  .list-group-item:hover {
+    background-color: #ccc;
+  }
+
+  .selected {
+    background-color: rgb(115, 209, 233);
+  }
+
+  .correct {
+    background-color: rgb(123, 207, 127);
+  } 
+
+  .incorrect {
+    background-color: rgb(216, 105, 105);
+  }
+
+  .btn {
+    margin: 0 5px;
+  }
+
 
 </style>
